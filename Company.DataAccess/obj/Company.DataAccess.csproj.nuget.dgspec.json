@@ -4,12 +4,12 @@
     "C:\\Users\\user\\Desktop\\Project\\Company.DataAccess\\Company.DataAccess.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Company.Core.csproj": {
+    "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Aramco.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Company.Core.csproj",
-        "projectName": "Company.Core",
-        "projectPath": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Company.Core.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Aramco.Core.csproj",
+        "projectName": "Aramco.Core",
+        "projectPath": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Aramco.Core.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\obj\\",
         "projectStyle": "PackageReference",
@@ -91,8 +91,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Company.Core.csproj": {
-                "projectPath": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Company.Core.csproj"
+              "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Aramco.Core.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Aramco.Core.csproj"
               }
             }
           }

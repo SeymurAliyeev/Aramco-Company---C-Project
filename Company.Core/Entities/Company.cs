@@ -1,18 +1,18 @@
 ﻿using Company.Core.Interfaces;
 
-namespace Company.Core.Entities;
+namespace Aramco.Core.Entities;
 
 public class Company : IEntity
 {
     public int Id { get; }
-    public string Name { get; set; }
+    public string CompanyName { get; set; }
     private static int _id;
     public string Description { get; set; }
 
     public Company(string name, string description)
     {
         Id = _id++;
-        Name = name;
+        CompanyName = name;
         Description = description;
     }
 }

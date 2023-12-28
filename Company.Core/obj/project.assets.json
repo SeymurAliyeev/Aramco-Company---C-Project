@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Company.Core.csproj",
-      "projectName": "Company.Core",
-      "projectPath": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Company.Core.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Aramco.Core.csproj",
+      "projectName": "Aramco.Core",
+      "projectPath": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\Aramco.Core.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\user\\Desktop\\Project\\Company.Core\\obj\\",
       "projectStyle": "PackageReference",

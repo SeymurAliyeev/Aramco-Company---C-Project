@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Core", "Company.Core\Company.Core.csproj", "{C05541FC-2537-4584-9B67-92E77288D709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aramco.Core", "Company.Core\Aramco.Core.csproj", "{C05541FC-2537-4584-9B67-92E77288D709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.DataAccess", "Company.DataAccess\Company.DataAccess.csproj", "{D5C82FB9-A890-4050-A3A2-CFD9ECC94D6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aramco.DataAccess", "Company.DataAccess\Aramco.DataAccess.csproj", "{D5C82FB9-A890-4050-A3A2-CFD9ECC94D6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aramco.Business", "Aramco.Business\Aramco.Business.csproj", "{70F3A6AF-D7D3-4CC8-8A9E-1880D5DA4A59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aramco.ConsoleApp", "Aramco.ConsoleApp\Aramco.ConsoleApp.csproj", "{59F0D36A-FCBF-46A7-BCF2-7580178FF322}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{D5C82FB9-A890-4050-A3A2-CFD9ECC94D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5C82FB9-A890-4050-A3A2-CFD9ECC94D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5C82FB9-A890-4050-A3A2-CFD9ECC94D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70F3A6AF-D7D3-4CC8-8A9E-1880D5DA4A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F3A6AF-D7D3-4CC8-8A9E-1880D5DA4A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70F3A6AF-D7D3-4CC8-8A9E-1880D5DA4A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70F3A6AF-D7D3-4CC8-8A9E-1880D5DA4A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59F0D36A-FCBF-46A7-BCF2-7580178FF322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59F0D36A-FCBF-46A7-BCF2-7580178FF322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59F0D36A-FCBF-46A7-BCF2-7580178FF322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59F0D36A-FCBF-46A7-BCF2-7580178FF322}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

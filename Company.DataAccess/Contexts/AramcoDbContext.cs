@@ -1,9 +1,10 @@
 ﻿using Company.Core.Entities;
 
-namespace Company.DataAccess.Contexts;
+namespace Aramco.DataAccess.Contexts;
 
-public static class CompanyDbContext
+public static class AramcoDbContext
 {
+    public static List<Company> Companies { get; set; }
     public static List<Department> Departments { get; set; }
     public static List<Employee> Employees { get; set; }
 

@@ -5,7 +5,7 @@ namespace Company.Core.Entities;
 public class Department : IEntity
 {
     public int Id { get; }
-    public string Name { get; set; }
+    public string DepartmentName { get; set; }
     private static int _id;
     public int MaxEmployeeCount { get; set; }
     public Company Company { get; set; }
@@ -14,7 +14,7 @@ public class Department : IEntity
     public Department(string name, string description, int maxEmployeeCount, Company company)
     {
         Id = _id++;
-        Name = name;
+        DepartmentName = name;
         MaxEmployeeCount = maxEmployeeCount;
         Company = company;
         Description = description;
