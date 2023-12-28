@@ -19,7 +19,7 @@ public class CompanyService : ICompanyServices
         throw new NotImplementedException();
     }
 
-    public Company GetCompany(int Id)
+    public Aramco.Core.Entities.Company GetCompany(int Id)
     {
         throw new NotImplementedException();
     }
