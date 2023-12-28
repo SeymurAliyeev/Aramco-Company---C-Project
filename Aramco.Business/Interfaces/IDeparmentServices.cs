@@ -4,7 +4,7 @@ namespace Aramco.Business.Interfaces;
 
 public interface IDeparmentServices
 {
-    void Create(string DepartmentName,int MaxEmployeeCount,string CompanyName, string description);
+    void Create(string? DepartmentName,string CompanyName, string description);
     void Delete(string DepartmentName);
     Department GetById(int DepartmentId);
     void Deactivate (string DepartmentName);
