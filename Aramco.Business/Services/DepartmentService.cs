@@ -21,11 +21,13 @@ public class DepartmentService : IDeparmentServices
             AramcoDbContext.Departments.Find(c => c.DepartmentName.ToLower() == DepartmentName.ToLower());
         if (dbDepartment is not null)
             throw new AlreadyExistException($"{dbDepartment.DepartmentName} is already exist");
-        //if (dbDepartment.MaxEmployeeCount > 50)
-        //    throw new MaxCountException($"You have already reached the maximum size of department employee count");
+
+
         if (MinEmployeeCount < 5)
             throw new MinCountException($"There is insufficient count of department employees. Minimum count requirement is 5.");
-        Aramco.Core.Entities.Company? company = companyservice.GetCompanyByName(CompanyName);
+
+
+        var company = AramcoDbContext.Companies.Find(x => x.CompanyName.ToLower() == CompanyName.ToLower());
         if (company is null) throw new NotFoundException($"{CompanyName} is not exist");
         Company.Core.Entities.Department department = new(DepartmentName, description, CompanyName, MinEmployeeCount);
         AramcoDbContext.Departments.Add(department);
@@ -40,32 +42,39 @@ public class DepartmentService : IDeparmentServices
             throw new NotFoundException($"{DepartmentName} is not found");
         dbDepartment.isActive = false;
     }
-
-    //public void Deactivate(string DepartmentName)
-    //{
-    //    throw new NotImplementedException();
-    //}
-    public Company.Core.Entities.Department? GetByName(string DepartmentName)
+    public void GetByName(string DepartmentName)
     {
         if (String.IsNullOrEmpty(DepartmentName)) throw new ArgumentNullException();
-        Company.Core.Entities.Department? dbCompany = AramcoDbContext.Departments.Find(d => d.DepartmentName.ToLower() == DepartmentName.ToLower());
-        if (dbDepartment is null)
+        var byDepartment = AramcoDbContext.Departments.Find(d => d.DepartmentName.ToLower() == DepartmentName.ToLower());
+        if (byDepartment is null)
             throw new NotFoundException($"{DepartmentName} is not found");
-        Console.WriteLine($"id:  {dbDepartment.Id} \n" +
-                          $"Department Name:  {dbDepartment.CompanyName} \n" +
-                          $"Department description:  {dbDepartment.Description}");
+
+        if(byDepartment.isActive == true) 
+        {
+            Console.WriteLine($"id:  {byDepartment.Id} \n" +
+                          $"Department Name:  {byDepartment.CompanyName} \n" +
+                          $"Department description:  {byDepartment.Description}");
+        }
+
     }
 
     public void GetEmployeesIncluded(string DepartmentName)
     {
+
+        if (String.IsNullOrEmpty(DepartmentName)) throw new ArgumentNullException();
+        var byDepartment = AramcoDbContext.Departments.Find(d => d.DepartmentName.ToLower() == DepartmentName.ToLower());
+        if (byDepartment is null)
+            throw new NotFoundException($"{DepartmentName} is not found");
+
+
         foreach (var employee in AramcoDbContext.Employees)
         {
-            if (employee.Department.DepartmentName.ToLower() == DepartmentName.ToLower())
+            if (employee.DepartmentName.ToLower() == byDepartment.DepartmentName.ToLower() && employee.isActive == true)
             {
-                Console.WriteLine($"Id:  {employee.Id} \n"  +
-                                  $"Name: {employee.Name}\n" + 
-                                  $"Surname: {employee.Surname}\n" + 
-                                  $"Email:  {employee.Email}\n");    
+                Console.WriteLine($"Id:  {employee.Id} \n" +
+                                  $"Name: {employee.Name}\n" +
+                                  $"Surname: {employee.Surname}\n" +
+                                  $"Email:  {employee.Email}\n");
             }
         }
     }
@@ -74,7 +83,10 @@ public class DepartmentService : IDeparmentServices
     {
         foreach (var department in AramcoDbContext.Departments)
         {
-            Console.WriteLine($"Department Id:  {department.Id};   Department Name: {department.DepartmentName}");
+            if (department.isActive == true)
+            {
+                Console.WriteLine($"Department Id:  {department.Id};   Department Name: {department.DepartmentName}");
+            }
         }
     }
 }

@@ -17,39 +17,33 @@ public class EmployeeService : IEmployeeServices
     public void Create(string Name, string Surname, string email, string DepartmentName, int Salary)
     {
         if (String.IsNullOrEmpty(Name)) throw new ArgumentNullException();
-        Department? department = departmentservice.GetByName(DepartmentName);
+        Department? department = AramcoDbContext.Departments.Find(x => x.DepartmentName.ToLower() == DepartmentName.ToLower());
         if (department is null) throw new NotFoundException($"{DepartmentName} is not exist");
-        if(department.MaxEmployeeCount == department.CurrentEmployeeCount)
+
+
+        if (department.MaxEmployeeCount == department.CurrentEmployeeCount)
         {
             throw new FullDepartmentException($"{department.DepartmentName} is already full");
         }
-        Employee employee = new(Name,Surname,email,DepartmentName,Salary);
+        Employee employee = new(Name, Surname, email, DepartmentName, Salary);
         AramcoDbContext.Employees.Add(employee);
         department.CurrentEmployeeCount++;
     }
     public void Change(int EmployeeId, string newDepartmentName)
     {
-        var employee = AramcoDbContext.Employees.Find(e=>e.Id == EmployeeId);
+        var employee = AramcoDbContext.Employees.Find(e => e.Id == EmployeeId);
         if (employee is null) throw new NotFoundException("Employee is not found");
-        if(String.IsNullOrEmpty(newDepartmentName)) throw new ArgumentNullException();
-        var department = AramcoDbContext.Departments.Find(g=>g.DepartmentName.ToLower() == newDepartmentName.ToLower());
+        if (String.IsNullOrEmpty(newDepartmentName)) throw new ArgumentNullException();
+        var department = AramcoDbContext.Departments.Find(g => g.DepartmentName.ToLower() == newDepartmentName.ToLower());
         if (department is null) throw new NotFoundException("Department is not found");
         Delete(EmployeeId);
-        Create(employee.Name, employee.Surname, employee.Email, newDepartmentName,employee.Salary);
+        Create(employee.Name, employee.Surname, employee.Email, newDepartmentName, employee.Salary);
     }
     public void Delete(int EmployeeId)
     {
-        foreach (var employee in AramcoDbContext.Employees)
-        {
-            if(employee.Id != EmployeeId) 
-            {
-                throw new NotFoundException($"{EmployeeId} is not exist");
-            }
-            else
-            {
-                employee.isActive = false;
-            }
-        }
+        var employee = AramcoDbContext.Employees.Find(e => e.Id == EmployeeId);
+        if (employee is null) throw new NotFoundException("Employee is not found");
+        employee.isActive = false;
     }
     public void GetEmployeeById(int EmployeeId)
     {
@@ -59,7 +53,7 @@ public class EmployeeService : IEmployeeServices
             {
                 throw new NotFoundException($"{EmployeeId} is not exist");
             }
-            else
+            else employee.isActive = true;
             {
                 Console.WriteLine($"id:  {EmployeeId} \n" +
                           $"Employee Name, Surname:  {employee.Name} + {employee.Surname} \n" +
@@ -72,10 +66,13 @@ public class EmployeeService : IEmployeeServices
     {
         foreach (var employee in AramcoDbContext.Employees)
         {
-            Console.WriteLine($"Id:  {employee.Id} \n" +
-                              $"Name: {employee.Name}\n" +
-                              $"Surname: {employee.Surname}\n" +
-                              $"Email:  {employee.Email}\n");
+            if (employee.isActive == true)
+            {
+                Console.WriteLine($"Id:  {employee.Id} \n" +
+                                  $"Name: {employee.Name}\n" +
+                                  $"Surname: {employee.Surname}\n" +
+                                  $"Email:  {employee.Email}\n");
+            }
         }
     }
 }

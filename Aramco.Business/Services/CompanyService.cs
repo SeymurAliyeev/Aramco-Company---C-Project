@@ -3,6 +3,7 @@ using Aramco.Business.Utilities.Exceptions;
 using Aramco.Core.Entities;
 using Aramco.DataAccess.Contexts;
 using Company.Core.Entities;
+using System.Data.Common;
 using System.Data.SqlTypes;
 
 namespace Aramco.Business.Services;
@@ -18,6 +19,7 @@ public class CompanyService : ICompanyServices
             throw new AlreadyExistException($"{dbCompany.CompanyName} is already exist");
         Aramco.Core.Entities.Company company = new(CompanyName, description);
         AramcoDbContext.Companies.Add(company);
+        Console.WriteLine("Company created!!!");
     }
 
     public void Delete(string CompanyName)
@@ -30,27 +32,32 @@ public class CompanyService : ICompanyServices
         dbCompany.isActive = false;
     }
 
-    //public void Deactivate(string CompanyName)
-    //{
-    //    throw new NotImplementedException();
-    //}
-
-    public Core.Entities.Company GetCompanyByName(string CompanyName)
+    public void GetCompanyByName(string CompanyName)
     {
         if (String.IsNullOrEmpty(CompanyName)) throw new ArgumentNullException();
-        Aramco.Core.Entities.Company? dbCompany = AramcoDbContext.Companies.Find(c => c.CompanyName.ToLower() == CompanyName.ToLower());
-        if(dbCompany is null)
+        var dbCompany = AramcoDbContext.Companies.Find(c => c.CompanyName.ToLower() == CompanyName.ToLower());
+        if (dbCompany is null)
             throw new NotFoundException($"{CompanyName} is not found");
-        Console.WriteLine($"id:  {dbCompany.Id} \n" + 
-                          $"Company Name:  {dbCompany.CompanyName} \n"  +
-                          $"Company description:  {dbCompany.Description}");
+
+        if (dbCompany.isActive == true)
+        {
+            Console.WriteLine($"id:  {dbCompany.Id} \n" +
+                              $"Company Name:  {dbCompany.CompanyName} \n" +
+                              $"Company description:  {dbCompany.Description}");
+        }
     }
 
     public void GetDepartmentsIncluded(string CompanyName)
     {
+        if (String.IsNullOrEmpty(CompanyName)) throw new ArgumentNullException();
+        var dbCompany = AramcoDbContext.Companies.Find(c => c.CompanyName.ToLower() == CompanyName.ToLower());
+        if (dbCompany is null)
+            throw new NotFoundException($"{CompanyName} is not found");
+
+
         foreach (var department in AramcoDbContext.Departments)
         {
-            if (department.Company.CompanyName.ToLower() == CompanyName.ToLower())
+            if (department.CompanyName.ToLower() == dbCompany.CompanyName.ToLower() && department.isActive == true)
             {
                 Console.WriteLine($"Id:  {department.Id} \n" +
                                   $"Name: {department.DepartmentName}\n" +
@@ -61,9 +68,12 @@ public class CompanyService : ICompanyServices
 
     public void ShowAll()
     {
-        foreach(var company in  AramcoDbContext.Companies)
+        foreach (var company in AramcoDbContext.Companies)
         {
-            Console.WriteLine($"Company Id:  {company.Id};   Company Name: {company.CompanyName}");
+            if (company.isActive == true)
+            {
+                Console.WriteLine($"Company Id:  {company.Id};   Company Name: {company.CompanyName}");
+            }
         }
     }
 }

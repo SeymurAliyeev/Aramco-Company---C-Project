@@ -1,5 +1,6 @@
 ﻿using Aramco.Business.Services;
 using Aramco.Business.Utilities.Helpers;
+using Aramco.DataAccess.Contexts;
 using Company.Core.Entities;
 using System.Xml.Linq;
 Console.WriteLine("Aramco Project Starts:");
@@ -53,7 +54,7 @@ while (keeplooping)
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 1;
+                        goto case (int)Menu.CompanyCreate;
                     }
                     break;
                 case (int)Menu.CompanyDelete:
@@ -66,7 +67,7 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 2;
+                        goto case (int)Menu.CompanyDelete;
                     }
                     break;
                 case (int)Menu.CompanyGetByName:
@@ -79,7 +80,7 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 3;
+                        goto case (int)Menu.CompanyGetByName;
                     }
                     break;
                 case (int)Menu.CompanyGetIncludedDepartments:
@@ -92,7 +93,7 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 4;
+                        goto case (int)Menu.CompanyGetIncludedDepartments;
                     }
                     break;
                 case (int)Menu.CompanyShowAll:
@@ -115,7 +116,7 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 6;
+                        goto case (int)Menu.DepartmentCreate;
                     }
                     break;
                 case (int)Menu.DepartmentDelete:
@@ -128,7 +129,7 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 7;
+                        goto case (int)Menu.DepartmentDelete;
                     }
                     break;
                 case (int)Menu.DepartmentGetByName:
@@ -141,7 +142,7 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 8;
+                        goto case (int)Menu.DepartmentGetByName;
                     }
                     break;
                 case (int)Menu.DepartmentGetIncludedEmployees:
@@ -154,12 +155,12 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 9;
+                        goto case (int)Menu.DepartmentGetIncludedEmployees;
                     }
                     break;
                 case (int)Menu.DepartmentShowAll:
                     Console.WriteLine("All Departments:");
-                    companyService.ShowAll();
+                    departmentService.ShowAll();
                     break;
                 case (int)Menu.EmployeeCreate:
                     try
@@ -179,7 +180,7 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 11;
+                        goto case (int)Menu.EmployeeCreate;
                     }
                     break;
                 case (int)Menu.EmployeeChange:
@@ -189,13 +190,12 @@ while (keeplooping)
                         int EmployeeId = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Enter new department name:");
                         string newDepartmentName = Console.ReadLine();
-                        employeeService.Delete(EmployeeId);
-                        employeeService.Create(name, surname, email, DepartmentName, salary);
+                        employeeService.Change(EmployeeId, newDepartmentName);
                     }
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 12;
+                        goto case (int)Menu.EmployeeChange;
                     }
                     break;
                 case (int)Menu.EmployeeDelete:
@@ -208,7 +208,7 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 13;
+                        goto case (int)Menu.EmployeeDelete;
                     }
                     break;
                 case (int)Menu.EmployeeGetById:
@@ -221,12 +221,12 @@ while (keeplooping)
                     catch(Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        goto case 14;
+                        goto case (int)Menu.EmployeeGetById;
                     }
                     break;
                 case (int)Menu.EmployeeShowAll:
                     Console.WriteLine("All Employees:");
-                    companyService.ShowAll();
+                    employeeService.ShowAll();
                     break;
                 default:
                     keeplooping = false;
