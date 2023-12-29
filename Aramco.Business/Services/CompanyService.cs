@@ -9,7 +9,7 @@ namespace Aramco.Business.Services;
 
 public class CompanyService : ICompanyServices
 {
-    public void Create(string? CompanyName, string description)
+    public void Create(string? CompanyName, string? description)
     {
         if (String.IsNullOrEmpty(CompanyName)) throw new ArgumentNullException();
         Aramco.Core.Entities.Company? dbCompany =

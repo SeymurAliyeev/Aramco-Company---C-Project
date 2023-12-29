@@ -14,7 +14,7 @@ public class DepartmentService : IDeparmentServices
         companyservice = new CompanyService();
     }
 
-    public void Create(string? DepartmentName, string description, string CompanyName, int MinEmployeeCount)
+    public void Create(string? DepartmentName, string? description, string? CompanyName, int MinEmployeeCount)
     {
         if (String.IsNullOrEmpty(DepartmentName)) throw new ArgumentNullException();
         Company.Core.Entities.Department dbDepartment =
@@ -23,7 +23,7 @@ public class DepartmentService : IDeparmentServices
             throw new AlreadyExistException($"{dbDepartment.DepartmentName} is already exist");
         //if (dbDepartment.MaxEmployeeCount > 50)
         //    throw new MaxCountException($"You have already reached the maximum size of department employee count");
-        if (dbDepartment.MinEmployeeCount < 5)
+        if (MinEmployeeCount < 5)
             throw new MinCountException($"There is insufficient count of department employees. Minimum count requirement is 5.");
         Aramco.Core.Entities.Company? company = companyservice.GetCompanyByName(CompanyName);
         if (company is null) throw new NotFoundException($"{CompanyName} is not exist");
@@ -31,7 +31,7 @@ public class DepartmentService : IDeparmentServices
         AramcoDbContext.Departments.Add(department);
     }
 
-    public void Deactivate(string DepartmentName)
+    public void Delete(string DepartmentName)
     {
         if (String.IsNullOrEmpty(DepartmentName)) throw new ArgumentNullException();
         Company.Core.Entities.Department dbDepartment =
@@ -41,7 +41,7 @@ public class DepartmentService : IDeparmentServices
         dbDepartment.isActive = false;
     }
 
-    //public void Delete(string DepartmentName)
+    //public void Deactivate(string DepartmentName)
     //{
     //    throw new NotImplementedException();
     //}
