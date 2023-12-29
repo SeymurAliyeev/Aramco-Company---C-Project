@@ -1,26 +1,81 @@
 ﻿using Aramco.Business.Interfaces;
+using Aramco.Business.Utilities.Exceptions;
+using Aramco.Core.Entities;
+using Aramco.DataAccess.Contexts;
+using Company.Core.Entities;
+using Department = Company.Core.Entities.Department;
 
 namespace Aramco.Business.Services;
 
 public class EmployeeService : IEmployeeServices
 {
-    public void Change(int EmployeeId, string Departmentname)
+    private DepartmentService departmentservice { get; }
+    public EmployeeService()
     {
-        throw new NotImplementedException();
+        departmentservice = new DepartmentService();
     }
-
-    public void Create(string Name, string Surname, string email, string DepartmentName, int Age, int Salary)
+    public void Create(string Name, string Surname, string email, string DepartmentName, int Salary)
     {
-        throw new NotImplementedException();
+        if (String.IsNullOrEmpty(Name)) throw new ArgumentNullException();
+        Department? department = departmentservice.GetByName(DepartmentName);
+        if (department is null) throw new NotFoundException($"{DepartmentName} is not exist");
+        if(department.MaxEmployeeCount == department.CurrentEmployeeCount)
+        {
+            throw new FullDepartmentException($"{department.DepartmentName} is already full");
+        }
+        Employee employee = new(Name,Surname,email,DepartmentName,Salary);
+        AramcoDbContext.Employees.Add(employee);
+        department.CurrentEmployeeCount++;
     }
-
+    public void Change(int EmployeeId, string newDepartmentName)
+    {
+        var employee = AramcoDbContext.Employees.Find(e=>e.Id == EmployeeId);
+        if (employee is null) throw new NotFoundException("Employee is not found");
+        if(String.IsNullOrEmpty(newDepartmentName)) throw new ArgumentNullException();
+        var department = AramcoDbContext.Departments.Find(g=>g.DepartmentName.ToLower() == newDepartmentName.ToLower());
+        if (department is null) throw new NotFoundException("Department is not found");
+        Delete(EmployeeId);
+        Create(employee.Name, employee.Surname, employee.Email, newDepartmentName,employee.Salary);
+    }
     public void Delete(int EmployeeId)
     {
-        throw new NotImplementedException();
+        foreach (var employee in AramcoDbContext.Employees)
+        {
+            if(employee.Id != EmployeeId) 
+            {
+                throw new NotFoundException($"{EmployeeId} is not exist");
+            }
+            else
+            {
+                employee.isActive = false;
+            }
+        }
+    }
+    public void GetEmployeeById(int EmployeeId)
+    {
+        foreach (var employee in AramcoDbContext.Employees)
+        {
+            if (employee.Id != EmployeeId)
+            {
+                throw new NotFoundException($"{EmployeeId} is not exist");
+            }
+            else
+            {
+                Console.WriteLine($"id:  {EmployeeId} \n" +
+                          $"Employee Name, Surname:  {employee.Name} + {employee.Surname} \n" +
+                          $"Employee Salary:  {employee.Salary}");
+            }
+        }
     }
 
-    public void Update(int EmployeeId, int Salary, string email)
+    public void ShowAll()
     {
-        throw new NotImplementedException();
+        foreach (var employee in AramcoDbContext.Employees)
+        {
+            Console.WriteLine($"Id:  {employee.Id} \n" +
+                              $"Name: {employee.Name}\n" +
+                              $"Surname: {employee.Surname}\n" +
+                              $"Email:  {employee.Email}\n");
+        }
     }
 }

@@ -5,8 +5,7 @@ public interface ICompanyServices
     void Create(string? CompanyName, string description);
     void Delete(string CompanyName);
     void Deactivate(string CompanyName);
-    void ShowAll();
-    Aramco.Core.Entities.Company GetCompany(int Id);
-    Aramco.Core.Entities.Company GetCompany(int Id);
+    Aramco.Core.Entities.Company GetCompanyByName(string CompanyName);
     void GetDepartmentsIncluded(string CompanyName);
+    void ShowAll();
 }

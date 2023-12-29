@@ -4,10 +4,11 @@ namespace Aramco.Business.Interfaces;
 
 public interface IDeparmentServices
 {
-    void Create(string? DepartmentName,string CompanyName, string description);
-    void Delete(string DepartmentName);
-    Department GetById(int DepartmentId);
+    void Create(string? DepartmentName, string description,string CompanyName, int MinEmployeeCount);
     void Deactivate (string DepartmentName);
-    void ShowAll();
+    void Delete(string DepartmentName);
+    Department? GetByName(string DepartmentName);
+    Core.Entities.Department? GetByName(string DepartmentName);
     void GetEmployeesIncluded(string DepartmentName);
+    void ShowAll();
 }
