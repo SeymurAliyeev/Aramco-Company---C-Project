@@ -26,8 +26,16 @@ public class EmployeeService : IEmployeeServices
             throw new FullDepartmentException($"{department.DepartmentName} is already full");
         }
         Employee employee = new(Name, Surname, email, DepartmentName, Salary);
-        AramcoDbContext.Employees.Add(employee);
-        department.CurrentEmployeeCount++;
+        if (department.isActive == true)
+        {
+            AramcoDbContext.Employees.Add(employee);
+            Console.WriteLine("Employee Created!");
+            department.CurrentEmployeeCount++;
+        }
+        else
+        {
+            Console.WriteLine($"New employee can not be created, because {DepartmentName} is not actively found!");
+        }
     }
     public void Change(int EmployeeId, string newDepartmentName)
     {
@@ -36,10 +44,10 @@ public class EmployeeService : IEmployeeServices
         if (String.IsNullOrEmpty(newDepartmentName)) throw new ArgumentNullException();
         var department = AramcoDbContext.Departments.Find(g => g.DepartmentName.ToLower() == newDepartmentName.ToLower());
         if (department is null) throw new NotFoundException("Department is not found");
-        Delete(EmployeeId);
+        Deactivate(EmployeeId);
         Create(employee.Name, employee.Surname, employee.Email, newDepartmentName, employee.Salary);
     }
-    public void Delete(int EmployeeId)
+    public void Deactivate(int EmployeeId)
     {
         var employee = AramcoDbContext.Employees.Find(e => e.Id == EmployeeId);
         if (employee is null) throw new NotFoundException("Employee is not found");
@@ -56,11 +64,26 @@ public class EmployeeService : IEmployeeServices
             else employee.isActive = true;
             {
                 Console.WriteLine($"id:  {EmployeeId} \n" +
-                          $"Employee Name, Surname:  {employee.Name} + {employee.Surname} \n" +
+                          $"Employee Name, Surname:  {employee.Name}  {employee.Surname} \n" +
                           $"Employee Salary:  {employee.Salary}");
             }
         }
     }
+
+    public void ShowAllDeactivatedEmployees()
+    {
+        foreach (var employee in AramcoDbContext.Employees)
+        {
+            if (employee.isActive == false)
+            {
+                Console.WriteLine($"Id:  {employee.Id} \n" +
+                                  $"Name: {employee.Name}\n" +
+                                  $"Surname: {employee.Surname}\n" +
+                                  $"Salary:  {employee.Salary}\n");
+            }
+        }
+    }
+
 
     public void ShowAll()
     {
@@ -71,8 +94,9 @@ public class EmployeeService : IEmployeeServices
                 Console.WriteLine($"Id:  {employee.Id} \n" +
                                   $"Name: {employee.Name}\n" +
                                   $"Surname: {employee.Surname}\n" +
-                                  $"Email:  {employee.Email}\n");
+                                  $"Salary:  {employee.Salary}\n");
             }
         }
     }
+
 }

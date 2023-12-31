@@ -19,10 +19,9 @@ public class CompanyService : ICompanyServices
             throw new AlreadyExistException($"{dbCompany.CompanyName} is already exist");
         Aramco.Core.Entities.Company company = new(CompanyName, description);
         AramcoDbContext.Companies.Add(company);
-        Console.WriteLine("Company created!!!");
     }
 
-    public void Delete(string CompanyName)
+    public void Deactivate(string CompanyName)
     {
         if (String.IsNullOrEmpty(CompanyName)) throw new ArgumentNullException();
         Aramco.Core.Entities.Company? dbCompany =
@@ -66,6 +65,17 @@ public class CompanyService : ICompanyServices
         }
     }
 
+    public void ShowAllDeactivatedCompanies()
+    {
+        foreach (var company in AramcoDbContext.Companies)
+        {
+            if (company.isActive == false)
+            {
+                Console.WriteLine($"Company Id:  {company.Id};   Company Name: {company.CompanyName}");
+            }
+        }
+    }
+
     public void ShowAll()
     {
         foreach (var company in AramcoDbContext.Companies)
@@ -76,4 +86,17 @@ public class CompanyService : ICompanyServices
             }
         }
     }
+
+    public bool IsCompanyExist()
+    {
+        foreach (var item in  AramcoDbContext.Companies)
+        {
+            if(item is not null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

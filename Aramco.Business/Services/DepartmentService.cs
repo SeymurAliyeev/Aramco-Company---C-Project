@@ -30,10 +30,18 @@ public class DepartmentService : IDeparmentServices
         var company = AramcoDbContext.Companies.Find(x => x.CompanyName.ToLower() == CompanyName.ToLower());
         if (company is null) throw new NotFoundException($"{CompanyName} is not exist");
         Company.Core.Entities.Department department = new(DepartmentName, description, CompanyName, MinEmployeeCount);
-        AramcoDbContext.Departments.Add(department);
+        if (company.isActive == true)
+        {
+            AramcoDbContext.Departments.Add(department);
+            Console.WriteLine("Department Created!");
+        }
+        else
+        {
+            Console.WriteLine($"New department can not be created, because {CompanyName} is not actively found!");
+        }
     }
 
-    public void Delete(string DepartmentName)
+    public void Deactivate(string DepartmentName)
     {
         if (String.IsNullOrEmpty(DepartmentName)) throw new ArgumentNullException();
         Company.Core.Entities.Department dbDepartment =
@@ -79,6 +87,17 @@ public class DepartmentService : IDeparmentServices
         }
     }
 
+    public void ShowAllDeactivatedDepartments()
+    {
+        foreach (var department in AramcoDbContext.Departments)
+        {
+            if (department.isActive == false)
+            {
+                Console.WriteLine($"Department Id:  {department.Id};   Department Name: {department.DepartmentName}");
+            }
+        }
+    }
+
     public void ShowAll()
     {
         foreach (var department in AramcoDbContext.Departments)
@@ -89,4 +108,17 @@ public class DepartmentService : IDeparmentServices
             }
         }
     }
+
+    public bool IsDepartmentExist()
+    {
+        foreach(var item in  AramcoDbContext.Departments)
+        {
+            if(item is not null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

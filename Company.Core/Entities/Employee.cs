@@ -9,7 +9,6 @@ public class Employee : IEntity
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Email { get; set; }
-    //public string Department { get; }
     public bool isActive { get; set; } = true;
 
     public string DepartmentName { get; set; }
